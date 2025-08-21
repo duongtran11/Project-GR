@@ -21,9 +21,20 @@ public class Movement : MonoBehaviour
     public StateMachine<Movement> MovementSM = new();
     public StateFactory<Movement> MovementSF = new();
     public Animator Anim;
+    public float WalkSpeed = 2f;
+    public float RunSpeed = 4f;
+    public float CrouchSpeed = 1f;
+    public float BackwardWalkSpeed = 1f;
+    public float BackwardRunSpeed = 2f;
+    public float BackwardCrouchSpeed = 1f;
     public float HorizontalInput => _horizontalInput;
     public float VerticalInput => _verticalInput;
     public Vector3 MoveDirection => _moveDirection;
+    public float MoveSpeed
+    {
+        get => _moveSpeed;
+        set { _moveSpeed = value; }
+    }
     void Awake()
     {
         _controller = GetComponent<CharacterController>();

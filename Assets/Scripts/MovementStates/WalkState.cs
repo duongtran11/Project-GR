@@ -23,12 +23,18 @@ public class WalkState : StateBase<Movement>
             // Running
             var runState = Agent.MovementSF.GetOrCreate<RunState>(Agent);
             Agent.MovementSM.ChangeState(runState);
+            Agent.MoveSpeed = Agent.HorizontalInput >= 0
+                                ? Agent.RunSpeed
+                                : Agent.BackwardRunSpeed;
         }
         else if (Input.GetKeyDown(KeyCode.C))
         {
             // Crouching
             var crouchState = Agent.MovementSF.GetOrCreate<CrouchState>(Agent);
             Agent.MovementSM.ChangeState(crouchState);
+            Agent.MoveSpeed = Agent.HorizontalInput >= 0
+                                ? Agent.CrouchSpeed
+                                : Agent.BackwardCrouchSpeed;
         }
         if (Agent.MoveDirection.magnitude < 0.1f)
         {

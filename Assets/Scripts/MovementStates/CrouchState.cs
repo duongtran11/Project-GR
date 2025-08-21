@@ -23,6 +23,9 @@ public class CrouchState : StateBase<Movement>
             // Running
             var runState = Agent.MovementSF.GetOrCreate<RunState>(Agent);
             Agent.MovementSM.ChangeState(runState);
+            Agent.MoveSpeed = Agent.HorizontalInput >= 0
+                                ? Agent.RunSpeed
+                                : Agent.BackwardRunSpeed;
         }
         if (Agent.MoveDirection.magnitude < 0.1f)
         {

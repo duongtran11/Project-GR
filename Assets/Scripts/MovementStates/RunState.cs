@@ -23,6 +23,9 @@ public class RunState : StateBase<Movement>
             // walking
             var walkState = Agent.MovementSF.GetOrCreate<WalkState>(Agent);
             Agent.MovementSM.ChangeState(walkState);
+            Agent.MoveSpeed = Agent.HorizontalInput >= 0
+                                ? Agent.WalkSpeed
+                                : Agent.BackwardWalkSpeed;
         }
         if (Agent.MoveDirection.magnitude < 0.1f)
         {
