@@ -17,6 +17,8 @@ public class Movement : MonoBehaviour
     private bool _isWalking;
     private bool _isRunning;
     private bool _isCrouching;
+    private float _currentHInput;
+    private float _currentVInput;
 
     public StateMachine<Movement> MovementSM = new();
     public StateFactory<Movement> MovementSF = new();
@@ -47,12 +49,13 @@ public class Movement : MonoBehaviour
         _horizontalInput = Input.GetAxis("Horizontal");
         _verticalInput = Input.GetAxis("Vertical");
 
-        _moveDirection = transform.forward * _verticalInput + transform.right * _horizontalInput;
+        _moveDirection = transform.forward * _currentVInput + transform.right * _currentHInput;
 
-        _controller.Move(_moveSpeed * Time.deltaTime * _moveDirection);
+        _currentHInput = Mathf.MoveTowards(_currentHInput, _horizontalInput, Time.deltaTime * 2f);
+        _currentVInput = Mathf.MoveTowards(_currentVInput, _verticalInput, Time.deltaTime * 2f);
         MovementSM.CurrentState.Update();
-        Anim.SetFloat("HInput", HorizontalInput);
-        Anim.SetFloat("VInput", VerticalInput);
+        Anim.SetFloat("HInput", _currentHInput);
+        Anim.SetFloat("VInput", _currentVInput);
         ApplyGravity();
     }
     void ApplyGravity()
@@ -75,5 +78,10 @@ public class Movement : MonoBehaviour
             return true;
         }
         return false;
+    }
+    void OnAnimatorMove()
+    {
+        Vector3 velocity = Anim.deltaPosition;
+        _controller.Move(velocity);
     }
 }
