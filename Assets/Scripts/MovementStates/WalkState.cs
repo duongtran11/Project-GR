@@ -42,5 +42,10 @@ public class WalkState : StateBase<Movement>
             var idleState = Agent.MovementSF.GetOrCreate<IdleState>(Agent);
             Agent.MovementSM.ChangeState(idleState);
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            var drawState = Agent.MovementSF.GetOrCreate<DrawPistol>(Agent);
+            Agent.MovementSM.ChangeState(drawState);
+        }
     }
 }

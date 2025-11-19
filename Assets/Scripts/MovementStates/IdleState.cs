@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class IdleState : StateBase<Movement>
 {
     public IdleState(Movement agent) : base(agent)
@@ -20,6 +22,11 @@ public class IdleState : StateBase<Movement>
             // Start walking
             var walkState = Agent.MovementSF.GetOrCreate<WalkState>(Agent);
             Agent.MovementSM.ChangeState(walkState);
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            var drawState = Agent.MovementSF.GetOrCreate<DrawPistol>(Agent);
+            Agent.MovementSM.ChangeState(drawState);
         }
     }
 }
