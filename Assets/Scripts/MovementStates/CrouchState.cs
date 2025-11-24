@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class CrouchState : StateBase<Movement>
+public class CrouchState : MovementStateBase
 {
     public CrouchState(Movement agent) : base(agent)
     {
@@ -18,20 +16,6 @@ public class CrouchState : StateBase<Movement>
 
     public override void Update()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            // Running
-            var runState = Agent.MovementSF.GetOrCreate<RunState>(Agent);
-            Agent.MovementSM.ChangeState(runState);
-            Agent.MoveSpeed = Agent.HorizontalInput >= 0
-                                ? Agent.RunSpeed
-                                : Agent.BackwardRunSpeed;
-        }
-        if (Agent.MoveDirection.magnitude < 0.1f)
-        {
-            // idle
-            var idleState = Agent.MovementSF.GetOrCreate<IdleState>(Agent);
-            Agent.MovementSM.ChangeState(idleState);
-        }
+        base.Update();
     }
 }

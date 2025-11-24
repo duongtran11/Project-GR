@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AimPistol : StateBase<Movement>
+public class AimPistol : MovementStateBase
 {
     public AimPistol(Movement agent) : base(agent)
     {
@@ -13,12 +13,12 @@ public class AimPistol : StateBase<Movement>
     {
         if (Input.GetMouseButtonUp(1))
         {
-            Exit();
+            var holdState = Agent.MovementSF.GetOrCreate<DrawPistol>(Agent);
+            Agent.MovementSM.ChangeState(holdState);
         }
     }
     public override void Exit()
     {
         Agent.Anim.SetBool("IsAiming", false);
-        Agent.Anim.SetLayerWeight(1, 0);
     }
 }

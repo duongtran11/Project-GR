@@ -14,9 +14,6 @@ public class Movement : MonoBehaviour
     public float _horizontalInput;
     public float _verticalInput;
     public Vector3 _moveDirection;
-    private bool _isWalking;
-    private bool _isRunning;
-    private bool _isCrouching;
     private float _currentHInput;
     private float _currentVInput;
 
@@ -37,6 +34,7 @@ public class Movement : MonoBehaviour
         get => _moveSpeed;
         set { _moveSpeed = value; }
     }
+    public bool IsHandGun { get; set; }
     void Awake()
     {
         _controller = GetComponent<CharacterController>();
