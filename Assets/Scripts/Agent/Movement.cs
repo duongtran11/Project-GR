@@ -17,8 +17,8 @@ public class Movement : MonoBehaviour
     private float _currentHInput;
     private float _currentVInput;
 
-    public StateMachine<Movement> MovementSM = new();
-    public StateFactory<Movement> MovementSF = new();
+    public StateMachine<Movement> StateMachine = new();
+    public StateFactory<Movement> StateFactory = new();
     public Animator Anim;
     public float WalkSpeed = 2f;
     public float RunSpeed = 4f;
@@ -34,12 +34,11 @@ public class Movement : MonoBehaviour
         get => _moveSpeed;
         set { _moveSpeed = value; }
     }
-    public bool IsHandGun { get; set; }
     void Awake()
     {
         _controller = GetComponent<CharacterController>();
-        var idleState = MovementSF.GetOrCreate<IdleState>(this);
-        MovementSM.ChangeState(idleState);
+        var idleState = StateFactory.GetOrCreate<IdleState>(this);
+        StateMachine.ChangeState(idleState);
         Anim = GetComponent<Animator>();
     }
     void Update()
@@ -51,7 +50,7 @@ public class Movement : MonoBehaviour
 
         _currentHInput = Mathf.MoveTowards(_currentHInput, _horizontalInput, Time.deltaTime * 2f);
         _currentVInput = Mathf.MoveTowards(_currentVInput, _verticalInput, Time.deltaTime * 2f);
-        MovementSM.CurrentState.Update();
+        StateMachine.CurrentState.Update();
         Anim.SetFloat("HInput", _currentHInput);
         Anim.SetFloat("VInput", _currentVInput);
         ApplyGravity();

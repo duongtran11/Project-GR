@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class AimPistol : MovementStateBase
+public class AimPistol : WeaponStateBase
 {
-    public AimPistol(Movement agent) : base(agent)
+    public AimPistol(Weapon agent) : base(agent)
     {
     }
     public override void Enter()
@@ -13,8 +13,8 @@ public class AimPistol : MovementStateBase
     {
         if (Input.GetMouseButtonUp(1))
         {
-            var holdState = Agent.MovementSF.GetOrCreate<DrawPistol>(Agent);
-            Agent.MovementSM.ChangeState(holdState);
+            var holdState = Agent.StateFactory.GetOrCreate<DrawPistol>(Agent);
+            Agent.StateMachine.ChangeState(holdState);
         }
     }
     public override void Exit()

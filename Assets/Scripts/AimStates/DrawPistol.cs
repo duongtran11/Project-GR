@@ -1,22 +1,24 @@
 using UnityEngine;
 
-public class DrawPistol : MovementStateBase
+public class DrawPistol : WeaponStateBase
 {
-    public DrawPistol(Movement agent) : base(agent)
+    public DrawPistol(Weapon agent) : base(agent)
     {
     }
     public override void Enter()
     {
-        Agent.Anim.SetLayerWeight(1, 1);
         Agent.Anim.SetBool("IsHandGun", true);
     }
     public override void Update()
     {
         if (Input.GetMouseButton(1))
         {
-            var aimState = Agent.MovementSF.GetOrCreate<AimPistol>(Agent);
-            Agent.MovementSM.ChangeState(aimState);
+            var aimState = Agent.StateFactory.GetOrCreate<AimPistol>(Agent);
+            Agent.StateMachine.ChangeState(aimState);
         }
-        base.Update();
+    }
+    public override void Exit()
+    {
+        Agent.Anim.SetBool("IsHandGun", false);
     }
 }

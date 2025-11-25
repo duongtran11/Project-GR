@@ -4,23 +4,14 @@ public class IdleState : MovementStateBase
     {
     }
 
-    public override void Enter()
-    {
-
-    }
-
-    public override void Exit()
-    {
-    }
-
     public override void Update()
     {
         base.Update();
         if (Agent.MoveDirection.magnitude > 0.1f)
         {
             // Start walking
-            var walkState = Agent.MovementSF.GetOrCreate<WalkState>(Agent);
-            Agent.MovementSM.ChangeState(walkState);
+            var walkState = Agent.StateFactory.GetOrCreate<WalkState>(Agent);
+            Agent.StateMachine.ChangeState(walkState);
         }
     }
 }
