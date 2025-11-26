@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class AgentController : MonoBehaviour
 {
+    private Animator _animator;
     private Movement _movement;
     private Weapon _weapon;
     public bool IsHandGun { get; set; }

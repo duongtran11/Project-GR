@@ -18,17 +18,20 @@ public class Weapon : MonoBehaviour
     public void DrawHandGun()
     {
         Anim.SetLayerWeight(1, 1);
-        var drawState = _stateFactory.GetOrCreate<DrawPistol>(this);
+        var drawState = _stateFactory.GetOrCreate<HoldPistolState>(this);
         _stateMachine.ChangeState(drawState);
     }
     public void AimHandGun()
     {
-        var aimState = _stateFactory.GetOrCreate<AimPistol>(this);
+        var aimState = _stateFactory.GetOrCreate<AimPistolState>(this);
         _stateMachine.ChangeState(aimState);
     }
     public void PutAwayHandGun()
     {
-        Anim.SetLayerWeight(1, 0);
         Anim.SetBool("IsHandGun", false);
+    }
+    public void ExitWeaponState()
+    {
+        Anim.SetLayerWeight(1, 0);
     }
 }

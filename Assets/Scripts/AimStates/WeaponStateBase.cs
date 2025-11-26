@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class WeaponStateBase : StateBase<Weapon>
 {
     public WeaponStateBase(Weapon agent) : base(agent)
