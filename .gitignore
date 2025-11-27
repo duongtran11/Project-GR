@@ -79,3 +79,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+# Package Samples 
+/Assets/Samples/
+/Assets/Samples.meta
+
