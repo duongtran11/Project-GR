@@ -4,29 +4,20 @@ using UnityEngine;
 
 public class SimpleAgentAimController : MonoBehaviour, IInputAxisOwner
 {
-    public InputAxis HorizontalLook = InputAxis.DefaultMomentary;
-    public InputAxis VerticalLook = InputAxis.DefaultMomentary;
-    private float _horizontal;
-    private float _vertical;
+    [Tooltip("Horizontal Rotation.  Value is in degrees, with 0 being centered.")]
+    public InputAxis HorizontalLook = new() { Range = new Vector2(-180, 180), Wrap = true, Recentering = InputAxis.RecenteringSettings.Default };
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
-
+    [Tooltip("Vertical Rotation.  Value is in degrees, with 0 being centered.")]
+    public InputAxis VerticalLook = new() { Range = new Vector2(-70, 70), Recentering = InputAxis.RecenteringSettings.Default };
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        _horizontal += HorizontalLook.Value;
-        _vertical += VerticalLook.Value;
-
-        transform.localRotation = Quaternion.Euler(_vertical, _horizontal, 0f);
+        transform.rotation = Quaternion.Euler(VerticalLook.Value, HorizontalLook.Value, 0f);
     }
 
     void IInputAxisOwner.GetInputAxes(List<IInputAxisOwner.AxisDescriptor> axes)
     {
-        axes.Add(new() { DrivenAxis = () => ref HorizontalLook, Name = "HorizontalLook" });
-        axes.Add(new() { DrivenAxis = () => ref VerticalLook, Name = "VerticalLook" });
+        axes.Add(new() { DrivenAxis = () => ref HorizontalLook, Name = "Horizontal Look", Hint = IInputAxisOwner.AxisDescriptor.Hints.X });
+        axes.Add(new() { DrivenAxis = () => ref VerticalLook, Name = "Vertical Look", Hint = IInputAxisOwner.AxisDescriptor.Hints.Y });
     }
 }

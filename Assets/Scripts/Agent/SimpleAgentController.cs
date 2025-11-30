@@ -5,6 +5,8 @@ using UnityEngine;
 public class SimpleAgentController : MonoBehaviour, IInputAxisOwner
 {
     private GameInput _controls;
+    private SimpleAgentAimController _aimController;
+    private Camera _mainCamera;
     [SerializeField]
     private float _walkingSpeed;
     private Animator _animator;
@@ -18,6 +20,8 @@ public class SimpleAgentController : MonoBehaviour, IInputAxisOwner
     void Awake()
     {
         // _animator = GetComponent<Animator>();
+        _aimController = GetComponentInChildren<SimpleAgentAimController>();
+        _mainCamera = Camera.main;
         _controls = new GameInput();
         _controls.Player.Movement.performed += ctx => _movement = ctx.ReadValue<Vector2>();
         _controls.Player.Movement.canceled += ctx => _movement = Vector2.zero;
@@ -32,8 +36,8 @@ public class SimpleAgentController : MonoBehaviour, IInputAxisOwner
 
     private void HandleMovement()
     {
-        _moveDirection = Vector3.ProjectOnPlane(transform.localRotation * new Vector3(_movement.x, 0, _movement.y)
-                                , Vector3.up);
+        var yaw = Quaternion.Euler(0f, _aimController.transform.rotation.eulerAngles.y, 0f);
+        _moveDirection = yaw * new Vector3(_movement.x, 0, _movement.y);
         transform.position += _walkingSpeed * Time.deltaTime * _moveDirection;
         if (_movement != Vector2.zero)
         {
