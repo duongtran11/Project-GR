@@ -1,14 +1,32 @@
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class AimCameraRig : CinemachineCameraManagerBase
+public class AimCameraRig : CinemachineCameraManagerBase, IInputAxisOwner
 {
-    private CinemachineVirtualCameraBase FreeCamera;
-    private CinemachineVirtualCameraBase AimCamera;
+    public InputAxis Aim = InputAxis.DefaultMomentary;
+    private SimpleAgentAimController _aimController;
+    private CinemachineVirtualCameraBase _freeCamera;
+    private CinemachineVirtualCameraBase _aimCamera;
+    private bool IsAiming => Aim.Value > 0.5f;
+
+    public void GetInputAxes(List<IInputAxisOwner.AxisDescriptor> axes)
+    {
+        axes.Add(new() { DrivenAxis = () => ref Aim, Name = "Aim" });
+    }
 
     protected override CinemachineVirtualCameraBase ChooseCurrentCamera(Vector3 worldUp, float deltaTime)
     {
-        throw new System.NotImplementedException();
+        var oldCam = (CinemachineVirtualCameraBase)LiveChild;
+        var newCam = IsAiming ? _aimCamera : _freeCamera;
+        if (newCam != oldCam && _aimController != null)
+        {
+            _aimController.CameraCouplingMode = IsAiming
+                ? SimpleAgentAimController.CouplingMode.Coupled
+                : SimpleAgentAimController.CouplingMode.Decoupled;
+            _aimController.Recenter();
+        }
+        return newCam;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -16,14 +34,19 @@ public class AimCameraRig : CinemachineCameraManagerBase
     {
         foreach (var cam in ChildCameras)
         {
-            if (AimCamera == null & cam.TryGetComponent<CinemachineThirdPersonAim>(out var aim)
+            if (_aimCamera == null & cam.TryGetComponent<CinemachineThirdPersonAim>(out var aim)
                 && aim.NoiseCancellation)
             {
-                AimCamera = cam;
+                _aimCamera = cam;
+                var player = _aimCamera.Follow;
+                if (player != null)
+                {
+                    _aimController = player.GetComponentInChildren<SimpleAgentAimController>();
+                }
             }
-            else if (FreeCamera == null)
+            else if (_freeCamera == null)
             {
-                FreeCamera = cam;
+                _freeCamera = cam;
             }
         }
     }

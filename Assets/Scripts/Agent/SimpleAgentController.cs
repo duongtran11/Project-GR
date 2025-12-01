@@ -6,7 +6,6 @@ public class SimpleAgentController : MonoBehaviour, IInputAxisOwner
 {
     private GameInput _controls;
     private SimpleAgentAimController _aimController;
-    private Camera _mainCamera;
     [SerializeField]
     private float _walkingSpeed;
     private Animator _animator;
@@ -21,7 +20,6 @@ public class SimpleAgentController : MonoBehaviour, IInputAxisOwner
     {
         // _animator = GetComponent<Animator>();
         _aimController = GetComponentInChildren<SimpleAgentAimController>();
-        _mainCamera = Camera.main;
         _controls = new GameInput();
         _controls.Player.Movement.performed += ctx => _movement = ctx.ReadValue<Vector2>();
         _controls.Player.Movement.canceled += ctx => _movement = Vector2.zero;
