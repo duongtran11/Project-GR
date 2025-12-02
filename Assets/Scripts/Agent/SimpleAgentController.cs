@@ -5,6 +5,7 @@ using UnityEngine;
 public class SimpleAgentController : MonoBehaviour, IInputAxisOwner
 {
     private GameInput _controls;
+    [SerializeField]
     private SimpleAgentAimController _aimController;
     [SerializeField]
     private float _walkingSpeed;
@@ -19,7 +20,7 @@ public class SimpleAgentController : MonoBehaviour, IInputAxisOwner
     void Awake()
     {
         // _animator = GetComponent<Animator>();
-        _aimController = GetComponentInChildren<SimpleAgentAimController>();
+        // _aimController = GetComponentInChildren<SimpleAgentAimController>();
         _controls = new GameInput();
         _controls.Player.Movement.performed += ctx => _movement = ctx.ReadValue<Vector2>();
         _controls.Player.Movement.canceled += ctx => _movement = Vector2.zero;
@@ -34,7 +35,7 @@ public class SimpleAgentController : MonoBehaviour, IInputAxisOwner
 
     private void HandleMovement()
     {
-        var yaw = Quaternion.Euler(0f, _aimController.transform.rotation.eulerAngles.y, 0f);
+        var yaw = Quaternion.Euler(0f, _aimController.transform.eulerAngles.y, 0f);
         _moveDirection = yaw * new Vector3(_movement.x, 0, _movement.y);
         transform.position += _walkingSpeed * Time.deltaTime * _moveDirection;
         if (_movement != Vector2.zero)
