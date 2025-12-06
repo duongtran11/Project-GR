@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class AimCameraRig : CinemachineCameraManagerBase, IInputAxisOwner
+public class TPSCameraRig : CinemachineCameraManagerBase, IInputAxisOwner
 {
     public InputAxis Aim = InputAxis.DefaultMomentary;
-    private SimpleAgentAimController _aimController;
+    private TPSAgentAimController _aimController;
     private CinemachineVirtualCameraBase _freeCamera;
     private CinemachineVirtualCameraBase _aimCamera;
     private bool IsAiming => Aim.Value > 0.5f;
@@ -22,8 +22,8 @@ public class AimCameraRig : CinemachineCameraManagerBase, IInputAxisOwner
         if (newCam != oldCam && _aimController != null)
         {
             _aimController.CameraCouplingMode = IsAiming
-                ? SimpleAgentAimController.CouplingMode.Coupled
-                : SimpleAgentAimController.CouplingMode.Decoupled;
+                ? TPSAgentAimController.CouplingMode.Coupled
+                : TPSAgentAimController.CouplingMode.Decoupled;
             _aimController.Recenter();
         }
         return newCam;
@@ -41,7 +41,7 @@ public class AimCameraRig : CinemachineCameraManagerBase, IInputAxisOwner
                 var player = _aimCamera.Follow;
                 if (player != null)
                 {
-                    _aimController = player.GetComponentInChildren<SimpleAgentAimController>();
+                    _aimController = player.GetComponentInChildren<TPSAgentAimController>();
                 }
             }
             else if (_freeCamera == null)

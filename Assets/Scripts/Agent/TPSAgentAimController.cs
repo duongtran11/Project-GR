@@ -2,18 +2,17 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class SimpleAgentAimController : MonoBehaviour, IInputAxisOwner
+public class TPSAgentAimController : MonoBehaviour, IInputAxisOwner
 {
     public enum CouplingMode { Coupled, Decoupled }
     [SerializeField]
-    private SimpleAgentController _agentController;
+    private TPSAgentController _agentController;
     [Tooltip("Horizontal Rotation.  Value is in degrees, with 0 being centered.")]
     public InputAxis HorizontalLook = new() { Range = new Vector2(-180, 180), Wrap = true, Recentering = InputAxis.RecenteringSettings.Default };
 
     [Tooltip("Vertical Rotation.  Value is in degrees, with 0 being centered.")]
     public InputAxis VerticalLook = new() { Range = new Vector2(-70, 70), Recentering = InputAxis.RecenteringSettings.Default };
     public CouplingMode CameraCouplingMode;
-    private Quaternion m_DesiredWorldRotation;
 
     void Start()
     {
