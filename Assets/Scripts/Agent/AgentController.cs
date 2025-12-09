@@ -12,6 +12,7 @@ public class AgentController : MonoBehaviour
     protected Vector2 _moveInput;
     protected Vector3 _moveDirection;
     public bool IsHandGun { get; set; }
+    public bool IsMoving => _moveDirection.magnitude != 0;
     void Awake()
     {
         _movement = GetComponent<Movement>();
