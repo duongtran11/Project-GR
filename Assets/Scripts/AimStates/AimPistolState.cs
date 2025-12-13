@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AimPistolState : WeaponStateBase
 {
-    public AimPistolState(Weapon agent) : base(agent)
+    public AimPistolState(PlayerWeapon agent) : base(agent)
     {
     }
     public override void Enter()

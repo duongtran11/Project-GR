@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class PlayerWeapon : MonoBehaviour
 {
-    private StateMachine<Weapon> _stateMachine = new();
-    private StateFactory<Weapon> _stateFactory = new();
-    public StateMachine<Weapon> StateMachine => _stateMachine;
-    public StateFactory<Weapon> StateFactory => _stateFactory;
+    private StateMachine<PlayerWeapon> _stateMachine = new();
+    private StateFactory<PlayerWeapon> _stateFactory = new();
+    public StateMachine<PlayerWeapon> StateMachine => _stateMachine;
+    public StateFactory<PlayerWeapon> StateFactory => _stateFactory;
     public Animator Anim { get; set; }
     void Awake()
     {

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HoldPistolState : WeaponStateBase
 {
-    public HoldPistolState(Weapon agent) : base(agent)
+    public HoldPistolState(PlayerWeapon agent) : base(agent)
     {
     }
     public override void Update()

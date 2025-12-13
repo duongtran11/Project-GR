@@ -7,6 +7,8 @@ public class FPSCameraRig : CinemachineCameraManagerBase, IInputAxisOwner
     [SerializeField]
     private FPSAgentController _agentController;
     [SerializeField]
+    private WeaponManager _weaponManager;
+    [SerializeField]
     private CinemachineVirtualCameraBase _fpsCamera;
     [SerializeField]
     private CinemachineVirtualCameraBase _aimCamera;
@@ -40,6 +42,13 @@ public class FPSCameraRig : CinemachineCameraManagerBase, IInputAxisOwner
 
     protected override CinemachineVirtualCameraBase ChooseCurrentCamera(Vector3 worldUp, float deltaTime)
     {
-        return IsAiming ? _aimCamera : _fpsCamera;
+        var oldCam = (CinemachineVirtualCameraBase)LiveChild;
+        var newCam = IsAiming ? _aimCamera : _fpsCamera;
+
+        if (_weaponManager != null)
+        {
+            _weaponManager.SwitchAimingMode(IsAiming);
+        }
+        return newCam;
     }
 }

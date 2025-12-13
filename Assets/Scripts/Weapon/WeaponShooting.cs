@@ -7,6 +7,7 @@ public enum FireMode
 }
 public class WeaponShooting : MonoBehaviour
 {
+    private Weapon _weapon;
     [SerializeField] private Transform _muzzleTransform;
 
     [Header("Shooting settings")]
@@ -22,17 +23,14 @@ public class WeaponShooting : MonoBehaviour
     [SerializeField] private float _recoilZ;
     [SerializeField] private float _pushBack;
     [SerializeField] private float _snappiness;
-    private Vector3 _startPosition;
-    private Vector3 _targetRotation;
-    private Vector3 _currentRotation;
-    private Vector3 _targetPosition;
-    private Vector3 _currentPosition;
+
     private GameInput _input;
     private bool _isFire;
     private bool _fireOnce;
     private float _lastFireTime;
     void Awake()
     {
+        _weapon = GetComponent<Weapon>();
         _input = new GameInput();
         _input.Player.Fire.performed += ctx =>
         {
@@ -44,7 +42,7 @@ public class WeaponShooting : MonoBehaviour
             _isFire = false;
         };
         _input.Enable();
-        _startPosition = transform.localPosition;
+        _weapon.StartPosition = transform.localPosition;
     }
     void Update()
     {
@@ -69,13 +67,13 @@ public class WeaponShooting : MonoBehaviour
 
     private void Recoil()
     {
-        _targetRotation = Vector3.Lerp(_targetRotation, Vector3.zero, _snappiness * Time.deltaTime);
-        _currentRotation = Vector3.Slerp(_currentRotation, _targetRotation, _snappiness * Time.deltaTime);
-        transform.localRotation = Quaternion.Euler(_currentRotation);
+        _weapon.TargetRotation = Vector3.Lerp(_weapon.TargetRotation, Vector3.zero, _snappiness * Time.deltaTime);
+        _weapon.CurrentRotation = Vector3.Slerp(_weapon.CurrentRotation, _weapon.TargetRotation, _snappiness * Time.deltaTime);
+        transform.localRotation = Quaternion.Euler(_weapon.CurrentRotation);
 
-        _targetPosition = Vector3.Lerp(_targetPosition, _startPosition, _snappiness * Time.deltaTime);
-        _currentPosition = Vector3.Lerp(_currentPosition, _targetPosition, _snappiness * Time.deltaTime);
-        transform.localPosition = _currentPosition;
+        _weapon.TargetPosition = Vector3.Lerp(_weapon.TargetPosition, _weapon.StartPosition, _snappiness * Time.deltaTime);
+        _weapon.CurrentPosition = Vector3.Lerp(_weapon.CurrentPosition, _weapon.TargetPosition, _snappiness * Time.deltaTime);
+        transform.localPosition = _weapon.CurrentPosition;
     }
 
     private void Shoot()
@@ -87,7 +85,7 @@ public class WeaponShooting : MonoBehaviour
                 damageable.OnDamage(_shootingDamage);
             }
         }
-        _targetRotation += new Vector3(_recoilX, Random.Range(-_recoilY, _recoilY), Random.Range(-_recoilZ, _recoilZ));
-        _targetPosition += new Vector3(0f, 0f, _pushBack);
+        _weapon.TargetRotation += new Vector3(_recoilX, Random.Range(-_recoilY, _recoilY), Random.Range(-_recoilZ, _recoilZ));
+        _weapon.TargetPosition += new Vector3(0f, 0f, _pushBack);
     }
 }

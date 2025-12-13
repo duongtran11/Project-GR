@@ -6,7 +6,7 @@ public class AgentController : MonoBehaviour
     protected GameInput _controls;
     protected Animator _animator;
     protected Movement _movement;
-    protected Weapon _weapon;
+    protected PlayerWeapon _weapon;
     [SerializeField]
     protected float _walkingSpeed;
     protected Vector2 _moveInput;
@@ -16,7 +16,7 @@ public class AgentController : MonoBehaviour
     void Awake()
     {
         _movement = GetComponent<Movement>();
-        _weapon = GetComponent<Weapon>();
+        _weapon = GetComponent<PlayerWeapon>();
         _controls = new GameInput();
         _controls.Player.Movement.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
         _controls.Player.Movement.canceled += ctx => _moveInput = Vector2.zero;

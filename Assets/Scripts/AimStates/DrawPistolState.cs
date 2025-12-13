@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DrawPistolState : WeaponStateBase
 {
-    public DrawPistolState(Weapon agent) : base(agent)
+    public DrawPistolState(PlayerWeapon agent) : base(agent)
     {
     }
     public override void Update()

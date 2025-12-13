@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class WeaponStateBase : StateBase<Weapon>
+public class WeaponStateBase : StateBase<PlayerWeapon>
 {
-    public WeaponStateBase(Weapon agent) : base(agent)
+    public WeaponStateBase(PlayerWeapon agent) : base(agent)
     {
         Agent = agent;
     }
