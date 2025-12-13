@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public enum FireMode
 {
@@ -9,7 +8,6 @@ public enum FireMode
 public class WeaponShooting : MonoBehaviour
 {
     [SerializeField] private Transform _muzzleTransform;
-    [SerializeField] private ParticleSystem _muzzleFlash;
 
     [Header("Shooting settings")]
     [SerializeField] private FireMode _fireMode;
@@ -78,11 +76,6 @@ public class WeaponShooting : MonoBehaviour
         _targetPosition = Vector3.Lerp(_targetPosition, _startPosition, _snappiness * Time.deltaTime);
         _currentPosition = Vector3.Lerp(_currentPosition, _targetPosition, _snappiness * Time.deltaTime);
         transform.localPosition = _currentPosition;
-    }
-
-    private void MuzzleFlash()
-    {
-        _muzzleFlash.Play();
     }
 
     private void Shoot()
