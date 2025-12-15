@@ -7,8 +7,8 @@ public class AgentController : MonoBehaviour
     protected Animator _animator;
     protected Movement _movement;
     protected PlayerWeapon _weapon;
-    [SerializeField]
-    protected float _walkingSpeed;
+    [SerializeField] protected Transform _followTarget;
+    [SerializeField] protected float _walkingSpeed;
     protected Vector2 _moveInput;
     protected Vector3 _moveDirection;
     public bool IsHandGun { get; set; }
@@ -38,5 +38,10 @@ public class AgentController : MonoBehaviour
 
             return;
         }
+    }
+
+    public Vector3 GetFollowPosition()
+    {
+        return _followTarget.position;
     }
 }

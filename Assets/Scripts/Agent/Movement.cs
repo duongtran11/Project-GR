@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField]
-    private CharacterController _controller;
-    [SerializeField]
-    private float _moveSpeed;
-    [SerializeField]
-    private LayerMask _groundMask;
-    [SerializeField]
-    private float _gravity = -9.81f;
+    [SerializeField] private CharacterController _controller;
+    [SerializeField] private TPSAgentAimController _aimController;
+    [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _turnSpeed;
+    [SerializeField] private LayerMask _groundMask;
+    [SerializeField] private float _gravity = -9.81f;
     private Vector3 _velocity;
     public float _horizontalInput;
     public float _verticalInput;
     public Vector3 _moveDirection;
     private float _currentHInput;
     private float _currentVInput;
+    private float _moveInput => Mathf.Sqrt(_currentHInput * _currentHInput + _currentVInput * _currentVInput);
 
     public StateMachine<Movement> StateMachine = new();
     public StateFactory<Movement> StateFactory = new();
@@ -26,6 +25,7 @@ public class Movement : MonoBehaviour
     public float BackwardWalkSpeed = 1f;
     public float BackwardRunSpeed = 2f;
     public float BackwardCrouchSpeed = 1f;
+
     public float HorizontalInput => _horizontalInput;
     public float VerticalInput => _verticalInput;
     public Vector3 MoveDirection => _moveDirection;
@@ -46,6 +46,7 @@ public class Movement : MonoBehaviour
         _horizontalInput = Input.GetAxis("Horizontal");
         _verticalInput = Input.GetAxis("Vertical");
 
+        var yaw = Quaternion.Euler(0f, _aimController.transform.eulerAngles.y, 0f);
         _moveDirection = transform.forward * _currentVInput + transform.right * _currentHInput;
 
         _currentHInput = Mathf.MoveTowards(_currentHInput, _horizontalInput, Time.deltaTime * 2f);
@@ -54,6 +55,10 @@ public class Movement : MonoBehaviour
         Anim.SetFloat("HInput", _currentHInput);
         Anim.SetFloat("VInput", _currentVInput);
         ApplyGravity();
+        if (_moveInput != 0f)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, yaw, _turnSpeed * Time.deltaTime);
+        }
     }
     void ApplyGravity()
     {

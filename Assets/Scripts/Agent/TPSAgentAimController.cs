@@ -6,7 +6,7 @@ public class TPSAgentAimController : MonoBehaviour, IInputAxisOwner
 {
     public enum CouplingMode { Coupled, Decoupled }
     [SerializeField]
-    private TPSAgentController _agentController;
+    private AgentController _agentController;
     [Tooltip("Horizontal Rotation.  Value is in degrees, with 0 being centered.")]
     public InputAxis HorizontalLook = new() { Range = new Vector2(-180, 180), Wrap = true, Recentering = InputAxis.RecenteringSettings.Default };
 
@@ -21,7 +21,7 @@ public class TPSAgentAimController : MonoBehaviour, IInputAxisOwner
 
     void LateUpdate()
     {
-        transform.position = _agentController.transform.position;
+        transform.position = _agentController.GetFollowPosition();
         transform.rotation = Quaternion.Euler(VerticalLook.Value, HorizontalLook.Value, 0f);
         if (CameraCouplingMode == CouplingMode.Coupled)
         {
