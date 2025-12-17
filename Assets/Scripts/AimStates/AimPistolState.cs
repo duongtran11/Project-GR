@@ -11,11 +11,11 @@ public class AimPistolState : WeaponStateBase
     }
     public override void Update()
     {
-        if (Input.GetMouseButtonUp(1))
-        {
-            var holdState = Agent.StateFactory.GetOrCreate<HoldPistolState>(Agent);
-            Agent.StateMachine.ChangeState(holdState);
-        }
+        // if (Input.GetMouseButtonUp(1))
+        // {
+        //     var holdState = Agent.StateFactory.GetOrCreate<HoldPistolState>(Agent);
+        //     Agent.StateMachine.ChangeState(holdState);
+        // }
     }
     public override void Exit()
     {

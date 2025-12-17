@@ -28,7 +28,7 @@ public class PlayerWeapon : MonoBehaviour
     }
     public void PutAwayHandGun()
     {
-        Anim.SetBool("IsHandGun", false);
+        Anim.SetBool("IsRifle", false);
     }
     public void ExitWeaponState()
     {

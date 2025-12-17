@@ -8,11 +8,11 @@ public class WeaponStateBase : StateBase<PlayerWeapon>
     }
     public override void Enter()
     {
-        Agent.Anim.SetBool("IsHandGun", true);
+        Agent.Anim.SetBool("IsRifle", true);
     }
     public override void Exit()
     {
-        Agent.Anim.SetBool("IsHandGun", false);
+        // Agent.Anim.SetBool("IsRifle", false);
     }
     public override void Update()
     {
