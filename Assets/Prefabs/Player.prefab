@@ -120,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 1078072429763033086}
   serializedVersion: 2
   m_LocalRotation: {x: 0.75693756, y: -0.020255132, z: -0.6262031, w: -0.18575493}
-  m_LocalPosition: {x: 0.299, y: -0.284, z: 0.46}
+  m_LocalPosition: {x: 0.178, y: 0.216, z: 0.201}
   m_LocalScale: {x: 0.10000002, y: 0.10000002, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -687,9 +687,9 @@ MonoBehaviour:
     m_WorldUpAxis: 2
     m_MaintainOffset: 0
     m_ConstrainedAxes:
-      x: 0
+      x: 1
       y: 1
-      z: 0
+      z: 1
 --- !u!1 &3478423295753504423
 GameObject:
   m_ObjectHideFlags: 0
@@ -1417,9 +1417,9 @@ MonoBehaviour:
     m_WorldUpAxis: 2
     m_MaintainOffset: 0
     m_ConstrainedAxes:
-      x: 0
+      x: 1
       y: 1
-      z: 0
+      z: 1
 --- !u!1 &4586253718173582555
 GameObject:
   m_ObjectHideFlags: 0
@@ -1777,6 +1777,7 @@ Transform:
   - {fileID: 3840060648962289574}
   - {fileID: 2004079641186775615}
   - {fileID: 4880505562823586319}
+  - {fileID: 4854857450109598864}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1571201058754273587
@@ -1796,7 +1797,12 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:Spine'\n\tTransform 'mixamorig:Spine'\n\tTransform
+    'mixamorig:Neck'\n\tTransform 'mixamorig:LeftHand'\n\tTransform 'mixamorig:Neck'\n\tTransform
+    'mixamorig:LeftHand'\n\tFrom animation clip 'Rifle Aiming Idle'\n\tFrom animation
+    clip 'Rifle Aiming Idle Fixed'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -1816,7 +1822,7 @@ MonoBehaviour:
   _controller: {fileID: 201266628726216867}
   _aimController: {fileID: 0}
   _moveSpeed: 2
-  _turnSpeed: 0
+  _turnSpeed: 2
   _groundMask:
     serializedVersion: 2
     m_Bits: 64
@@ -1868,7 +1874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896bb1b94862d6145a01e7641a3748d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _followTarget: {fileID: 0}
+  _followTarget: {fileID: 4854857450109598864}
   _walkingSpeed: 0
 --- !u!114 &3361542004375931043
 MonoBehaviour:
@@ -2086,7 +2092,7 @@ MonoBehaviour:
       m_Item7:
         transform: {fileID: 0}
         weight: 0
-    m_Offset: {x: -17, y: 18.9, z: 0}
+    m_Offset: {x: 0, y: 18.9, z: 0}
     m_MinLimit: -45
     m_MaxLimit: 45
     m_AimAxis: 4
@@ -2096,9 +2102,9 @@ MonoBehaviour:
     m_WorldUpAxis: 2
     m_MaintainOffset: 0
     m_ConstrainedAxes:
-      x: 0
+      x: 1
       y: 1
-      z: 0
+      z: 1
 --- !u!1 &5818884692835379304
 GameObject:
   m_ObjectHideFlags: 0
@@ -2166,6 +2172,37 @@ Transform:
   - {fileID: 4271882377494667584}
   - {fileID: 7667638822447967115}
   m_Father: {fileID: 2396071605191682594}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &5971221762842226772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4854857450109598864}
+  m_Layer: 0
+  m_Name: FollowTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4854857450109598864
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5971221762842226772}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.39289886, z: -0, w: 0.9195817}
+  m_LocalPosition: {x: 0, y: 1.486, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4840854879079103305}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5971537421424667679
 GameObject:
