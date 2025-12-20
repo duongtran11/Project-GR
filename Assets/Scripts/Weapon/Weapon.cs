@@ -2,8 +2,11 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    [SerializeField] private Transform _weaponNormalPosition;
-    [SerializeField] private Transform _weaponADSPosition;
+    public Transform WeaponNormalPosition;
+    public Transform WeaponADSPosition;
+    public Transform RightHandGrip;
+    public Transform LeftHandIKTarget;
+    public Transform LeftHandIKHint;
     public Vector3 StartPosition;
     public Vector3 TargetRotation;
     public Vector3 CurrentRotation;

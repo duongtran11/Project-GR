@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class AgentController : MonoBehaviour
@@ -6,7 +5,7 @@ public class AgentController : MonoBehaviour
     protected GameInput _controls;
     protected Animator _animator;
     protected Movement _movement;
-    protected PlayerWeapon _weapon;
+    protected WeaponController _weaponController;
     [SerializeField] protected Transform _followTarget;
     [SerializeField] protected float _walkingSpeed;
     protected Vector2 _moveInput;
@@ -16,7 +15,7 @@ public class AgentController : MonoBehaviour
     void Awake()
     {
         _movement = GetComponent<Movement>();
-        _weapon = GetComponent<PlayerWeapon>();
+        _weaponController = GetComponent<WeaponController>();
         _controls = new GameInput();
         _controls.Player.Movement.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
         _controls.Player.Movement.canceled += ctx => _moveInput = Vector2.zero;
@@ -29,17 +28,15 @@ public class AgentController : MonoBehaviour
             IsHandGun = !IsHandGun;
             if (IsHandGun)
             {
-                _weapon.DrawHandGun();
+                _weaponController.DrawRifle();
             }
             else
             {
-                _weapon.PutAwayHandGun();
+                _weaponController.PutAwayRifle();
             }
-
             return;
         }
     }
-
     public Vector3 GetFollowPosition()
     {
         return _followTarget.position;

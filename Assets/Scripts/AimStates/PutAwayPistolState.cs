@@ -1,6 +1,6 @@
 public class PutAwayPistolState : WeaponStateBase
 {
-    public PutAwayPistolState(PlayerWeapon agent) : base(agent)
+    public PutAwayPistolState(WeaponController agent) : base(agent)
     {
     }
     public override void Exit()
