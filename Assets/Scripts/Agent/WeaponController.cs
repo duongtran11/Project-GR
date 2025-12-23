@@ -3,7 +3,9 @@ using UnityEngine.Animations.Rigging;
 
 public class WeaponController : MonoBehaviour
 {
+    [SerializeField] private RigBuilder _rigBuilder;
     [SerializeField] private Rig _weaponRig;
+    [SerializeField] private Rig _aimRig;
     [SerializeField] private Transform _rightHandBone;
     [SerializeField] private TwoBoneIKConstraint _leftHandIK;
     public Weapon _currentWeapon;
@@ -23,19 +25,21 @@ public class WeaponController : MonoBehaviour
     public void DrawRifle()
     {
         Anim.SetLayerWeight(1, 1);
+        _aimRig.weight = 0f;
         EquipWeaponRigAndIK();
         var drawState = _stateFactory.GetOrCreate<HoldRifleState>(this);
         _stateMachine.ChangeState(drawState);
     }
     public void AimRifle()
     {
-
+        _aimRig.weight = 1f;
         var aimState = _stateFactory.GetOrCreate<AimRifleState>(this);
         _stateMachine.ChangeState(aimState);
     }
     public void PutAwayRifle()
     {
         Anim.SetBool("IsRifle", false);
+        UnequipWeaponRigAndIK();
     }
     public void DrawHandGun()
     {
@@ -66,17 +70,13 @@ public class WeaponController : MonoBehaviour
         _leftHandIK.data.target = _currentWeapon.LeftHandIKTarget;
         _leftHandIK.data.hint = _currentWeapon.LeftHandIKHint;
 
+        _rigBuilder.Build();
+
         _weaponRig.weight = 1f;
     }
     private void UnequipWeaponRigAndIK()
     {
-        // _currentWeapon.transform.SetParent(_rightHandBone);
-        // _currentWeapon.transform.localPosition = _currentWeapon.RightHandGrip.localPosition;
-        // _currentWeapon.transform.localRotation = _currentWeapon.RightHandGrip.localRotation;
-
-        // _leftHandIK.data.target = _currentWeapon.LeftHandIKTarget;
-        // _leftHandIK.data.hint = _currentWeapon.LeftHandIKHint;
-
         _weaponRig.weight = 0f;
+        _aimRig.weight = 0f;
     }
 }
