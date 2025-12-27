@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,7 +11,12 @@ public class EnemyController : MonoBehaviour, IDamageable
     [SerializeField] private List<Transform> _waypointList = new();
     private Vector3 _currentDestination;
     private int _currentIndex;
+    private float _jumpElapsedTime;
+    [SerializeField] private float _jumpHeight = 2f;
+    [SerializeField] private float _jumpDuration = 1.5f;
     [SerializeField] private float _minReachDistance = 0.1f;
+    private bool _isJumping;
+
     public string Name { get; }
     public float Health { get; set; }
 
@@ -29,6 +35,10 @@ public class EnemyController : MonoBehaviour, IDamageable
         //     FollowPlayer();
         // }
         Patrol();
+        if (_navMeshAgent.isOnOffMeshLink && !_isJumping)
+        {
+            StartCoroutine(JumpWithAnimation());
+        }
     }
 
     private void Patrol()
@@ -49,6 +59,54 @@ public class EnemyController : MonoBehaviour, IDamageable
         }
     }
 
+    private IEnumerator JumpWithAnimation()
+    {
+        _anim.SetBool("IsJump", true);
+        _isJumping = true;
+        _navMeshAgent.updatePosition = false;
+        _navMeshAgent.updateRotation = false;
+        var endPos = _navMeshAgent.currentOffMeshLinkData.endPos;
+        var jumpDir = endPos - transform.position;
+        jumpDir.y = 0f;
+        transform.rotation = Quaternion.LookRotation(jumpDir);
+        while (_isJumping)
+        {
+            yield return null;
+        }
+        _navMeshAgent.CompleteOffMeshLink();
+        // transform.position = endPos;
+        _navMeshAgent.nextPosition = transform.position;
+        _navMeshAgent.updatePosition = true;
+        _navMeshAgent.updateRotation = true;
+    }
+
+    private IEnumerator Jump()
+    {
+        _isJumping = true;
+        var offMeshData = _navMeshAgent.currentOffMeshLinkData;
+        var startPos = transform.position;
+        var endPos = offMeshData.endPos;
+        _navMeshAgent.updatePosition = false;
+        _navMeshAgent.updateRotation = false;
+
+        while (_jumpElapsedTime < _jumpDuration)
+        {
+            var t = _jumpElapsedTime / _jumpDuration;
+            var height = Mathf.Sin(Mathf.PI * t) * _jumpHeight;
+            var pos = Vector3.Lerp(startPos, endPos, t);
+            pos.y += height;
+
+            transform.position = pos;
+            _jumpElapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        _navMeshAgent.CompleteOffMeshLink();
+        _navMeshAgent.updatePosition = true;
+        _navMeshAgent.updateRotation = true;
+        _isJumping = false;
+    }
+
     private void ResetPath()
     {
         _currentIndex = 0;
@@ -58,6 +116,12 @@ public class EnemyController : MonoBehaviour, IDamageable
             _waypointList[i].position = _waypointList[_waypointList.Count - 1 - i].position;
             _waypointList[_waypointList.Count - 1 - i].position = temp;
         }
+    }
+
+    public void OnLanding()
+    {
+        _isJumping = false;
+        _anim.SetBool("IsJump", false);
     }
 
     void FollowPlayer()
@@ -72,5 +136,10 @@ public class EnemyController : MonoBehaviour, IDamageable
     void OnAnimatorMove()
     {
         _navMeshAgent.speed = (_anim.deltaPosition / Time.deltaTime).magnitude;
+        if (_isJumping)
+        {
+            transform.position += _anim.deltaPosition;
+            transform.rotation *= _anim.deltaRotation;
+        }
     }
 }
